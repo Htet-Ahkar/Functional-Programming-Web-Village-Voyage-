@@ -4,3 +4,5 @@ export * from "./Either";
 export * from "./Link";
 export * from "./pattern-matching";
 export * from "./Moniod and group";
+export * from "./TypeClass";
+export * from "./FunctorComposition";

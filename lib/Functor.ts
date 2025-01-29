@@ -1,12 +1,12 @@
 // Functor
 // Functor Option
-import { Option, some, none, matchOption, compose } from "./";
+import { Option, some, none, optionMatch, compose } from "./";
 
 type StrLength = (x: string) => number;
 const strLength: StrLength = (x) => x.length;
 
 type OptionStrLength = (Fx: Option<string>) => Option<number>;
-const optionStrLength: OptionStrLength = matchOption(
+const optionStrLength: OptionStrLength = optionMatch(
   () => none,
   (value: string) => some(strLength(value))
 );
@@ -16,14 +16,14 @@ const increment: Increment = (x) => x + 1;
 
 type OptionIncrement = (Fx: Option<number>) => Option<number>;
 const optionIncrement: OptionIncrement = (Fx) =>
-  matchOption(
+  optionMatch(
     () => none,
     (value: number) => some(value + 1)
   )(Fx);
 
 type MapOption = <A, B>(f: (x: A) => B) => (Fx: Option<A>) => Option<B>;
 const map_option: MapOption = (f) =>
-  matchOption(
+  optionMatch(
     () => none,
     (value: Parameters<typeof f>[0]) => some(f(value))
   );
@@ -50,14 +50,14 @@ const mapListStrLength = map_list(strLength);
 const mapListIncrement = map_list(increment);
 
 // Either
-import { Either, left, right, matchEither } from "./";
+import { Either, left, right, eitherMatch } from "./";
 
 type MapEither = <A, B, E>(
   f: (x: A) => B
 ) => (Fx: Either<E, A>) => Either<E, B>;
 
 const map_either: MapEither = (f) =>
-  matchEither(
+  eitherMatch(
     (e) => left(e),
     (a) => right(f(a))
   );
